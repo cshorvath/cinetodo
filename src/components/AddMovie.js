@@ -9,6 +9,7 @@ const AddMovie = props => {
         autofocus
         options={props.searchResult.results}
         isLoading={props.isLoading}
+        filterBy={(option) => true}
         labelKey="title"
         id="search"
         minLength={2}
@@ -18,15 +19,21 @@ const AddMovie = props => {
     />
 };
 
-function getFragment(resultItem) {
+function getYear(resultItem) {
     if (resultItem.release_date)
-        return <span>({resultItem.release_date.split("-")[0]})</span>;
+        return <span className="badge badge-secondary"> {resultItem.release_date.split("-")[0]}</span>;
     return null;
+}
+
+function getOriginalTitle(resultItem) {
+    if (resultItem.title === resultItem.original_title)
+        return null;
+    return <span className="text-secondary">{resultItem.original_title}</span>;
 }
 
 const ResultItem = resultItem => {
     return (<React.Fragment>
-        {resultItem.title}{getFragment(resultItem)}
+        {resultItem.title} {getOriginalTitle(resultItem)} {getYear(resultItem)}
     </React.Fragment>)
 };
 
