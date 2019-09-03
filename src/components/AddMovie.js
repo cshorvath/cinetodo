@@ -1,7 +1,8 @@
 import React from "react";
 import {connect} from "react-redux";
-import {requestMovies} from "../actions/actions";
+import {addMovie, requestMovies} from "../actions/actions";
 import {AsyncTypeahead} from "react-bootstrap-typeahead"
+import MovieItem from "./MovieItem";
 
 
 const AddMovie = props => {
@@ -15,27 +16,14 @@ const AddMovie = props => {
         minLength={2}
         onSearch={props.requestMovies}
         placeholder="Keresés..."
-        renderMenuItemChildren={option => ResultItem(option)}
+        renderMenuItemChildren={item => (<MovieItem item={item}/>)}
+        onChange={items => {
+            if (items.length)
+                props.addMovie(items[0]);
+        }}
     />
 };
 
-function getYear(resultItem) {
-    if (resultItem.release_date)
-        return <span className="badge badge-secondary"> {resultItem.release_date.split("-")[0]}</span>;
-    return null;
-}
-
-function getOriginalTitle(resultItem) {
-    if (resultItem.title === resultItem.original_title)
-        return null;
-    return <span className="text-secondary">{resultItem.original_title}</span>;
-}
-
-const ResultItem = resultItem => {
-    return (<React.Fragment>
-        {resultItem.title} {getOriginalTitle(resultItem)} {getYear(resultItem)}
-    </React.Fragment>)
-};
 
 function mapStateToProps(state) {
     return {
@@ -45,4 +33,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {requestMovies})(AddMovie);
+export default connect(mapStateToProps, {requestMovies, addMovie})(AddMovie);

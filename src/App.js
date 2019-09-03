@@ -1,11 +1,19 @@
 import React from 'react';
 import AddMovie from "./components/AddMovie";
+import MovieList from "./components/MovieList";
+import Col from "react-bootstrap/Col";
 
 
 function App() {
     return (
-
-            <AddMovie/>
+        <React.Fragment>
+                <Col>
+                    <AddMovie/>
+                </Col>
+                <Col>
+                    <MovieList/>
+                </Col>
+        </React.Fragment>
     );
 }
 

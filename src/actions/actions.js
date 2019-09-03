@@ -1,18 +1,16 @@
 import TmdbService from "./TmdbService";
 
 export const ADD_MOVIE = "ADD_MOVIE";
-
-
 export const REMOVE_MOVIE = "REMOVE_MOVIE";
 export const REQUEST_MOVIES = "REQUEST_MOVIES";
 export const RECEIVE_MOVIES = "RECEIVE_MOVIES";
 export const ERROR = "ERROR";
 
 
-export function addMovie(id) {
+export function addMovie(item) {
     return {
         type: ADD_MOVIE,
-        id,
+        item,
     }
 }
 

@@ -11,6 +11,7 @@ const store = configureStore({
     searchResult: {
         result: []
     },
+    items: new Map(),
     isSearchLoading: false,
     error: null
 });
