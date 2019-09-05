@@ -23,7 +23,7 @@ class TmdbService {
     async apiRequest(path, params) {
         return axios.get(this.URL + path,
             {
-                params: {...params, apiKey: this._apiKey}
+                params: {...params, api_key: this._apiKey}
             });
     }
 }
