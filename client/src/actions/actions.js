@@ -8,10 +8,21 @@ export const TOGGLE_MOVIE = "COMPLETE_MOVIE";
 export const ERROR = "ERROR";
 
 
-export function addMovie(item) {
+function addMovie(item) {
     return {
         type: ADD_MOVIE,
         item,
+    }
+}
+
+export function addMovieWithDetails(item) {
+    return dispatch => {
+        TmdbService.getDirector(item.id).then(
+            value => {
+                item.director = value;
+                dispatch(addMovie(item));
+            }
+        )
     }
 }
 

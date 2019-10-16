@@ -20,6 +20,17 @@ class TmdbService {
         return response.data
     }
 
+    async getDirector(id) {
+        const response = await this.apiRequest(
+            `movie/${id}/credits`
+        );
+        if (response) {
+
+            const director = response.data.crew.find(m => m.job.toLowerCase() === "director");
+            return director ? director.name : null;
+        }
+    }
+
     async apiRequest(path, params) {
         return axios.get(this.URL + path,
             {

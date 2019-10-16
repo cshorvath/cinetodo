@@ -1,8 +1,8 @@
 import React from "react";
 import {connect} from "react-redux";
-import {addMovie, requestMovies} from "../actions/actions";
+import {addMovieWithDetails, requestMovies} from "../actions/actions";
 import {AsyncTypeahead} from "react-bootstrap-typeahead"
-import {MovieItem} from "./MovieItem";
+import {MovieSearchItem} from "./MovieItem";
 
 
 const AddMovie = props => {
@@ -16,10 +16,10 @@ const AddMovie = props => {
         minLength={2}
         onSearch={props.requestMovies}
         placeholder="Keresés..."
-        renderMenuItemChildren={item => (<MovieItem item={item}/>)}
+        renderMenuItemChildren={item => (<MovieSearchItem  item={item}/>)}
         onChange={items => {
             if (items.length) {
-                props.addMovie(items[0]);
+                props.addMovieWithDetails(items[0]);
             }
         }}
     />
@@ -34,4 +34,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {requestMovies, addMovie})(AddMovie);
+export default connect(mapStateToProps, {requestMovies, addMovieWithDetails})(AddMovie);
