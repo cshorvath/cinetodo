@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {addMovie, requestMovies} from "../actions/actions";
 import {AsyncTypeahead} from "react-bootstrap-typeahead"
-import MovieItem from "./MovieItem";
+import {MovieItem} from "./MovieItem";
 
 
 const AddMovie = props => {
@@ -18,8 +18,9 @@ const AddMovie = props => {
         placeholder="Keresés..."
         renderMenuItemChildren={item => (<MovieItem item={item}/>)}
         onChange={items => {
-            if (items.length)
+            if (items.length) {
                 props.addMovie(items[0]);
+            }
         }}
     />
 };

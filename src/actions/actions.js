@@ -4,6 +4,7 @@ export const ADD_MOVIE = "ADD_MOVIE";
 export const REMOVE_MOVIE = "REMOVE_MOVIE";
 export const REQUEST_MOVIES = "REQUEST_MOVIES";
 export const RECEIVE_MOVIES = "RECEIVE_MOVIES";
+export const TOGGLE_MOVIE = "COMPLETE_MOVIE";
 export const ERROR = "ERROR";
 
 
@@ -17,6 +18,13 @@ export function addMovie(item) {
 export function removeMovie(id) {
     return {
         type: REMOVE_MOVIE,
+        id
+    }
+}
+
+export function toggleMovie(id) {
+    return {
+        type: TOGGLE_MOVIE,
         id
     }
 }

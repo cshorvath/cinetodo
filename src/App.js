@@ -3,23 +3,35 @@ import AddMovie from "./components/AddMovie";
 import MovieList from "./components/MovieList";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faFilm} from "@fortawesome/free-solid-svg-icons/faFilm";
+import Container from "react-bootstrap/Container";
+import Navbar from "react-bootstrap/Navbar";
 
+function Nav() {
+    return (
+        <Navbar bg="dark" variant="dark" className="mb-3">
+            <Navbar.Brand><FontAwesomeIcon icon={faFilm}/> CineTODO</Navbar.Brand>
+        </Navbar>
+    )
+}
 
 function App() {
-    return (
-        <React.Fragment>
-	    <Row className="mb-3">
+    return <>
+        <Nav/>
+        <Container>
+            <Row className="mb-3">
                 <Col>
                     <AddMovie/>
                 </Col>
-	    </Row>
-	    <Row>
+            </Row>
+            <Row>
                 <Col>
                     <MovieList/>
                 </Col>
-	    </Row>
-        </React.Fragment>
-    );
+            </Row>
+        </Container>
+    </>;
 }
 
 export default App;

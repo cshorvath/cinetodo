@@ -1,4 +1,6 @@
 import React from "react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTrash} from "@fortawesome/free-solid-svg-icons/faTrash";
 
 
 function getYear(item) {
@@ -13,10 +15,19 @@ function getOriginalTitle(item) {
     return <span className="text-secondary">{item.original_title}</span>;
 }
 
-const MovieItem = props => {
-    return (<React.Fragment>
-        {props.item.title} {getOriginalTitle(props.item)} {getYear(props.item)}
-    </React.Fragment>)
+export const MovieItem = props => {
+    return (
+        <>
+            <span
+                className={props.item.seen ? "seen" : null} onClick={props.onClick}> {props.item.title} {getOriginalTitle(props.item)} </span>{getYear(props.item)}
+        </>)
 };
 
-export default MovieItem;
+export const MovieItemWithControls = props => {
+    return (
+        <>
+            <MovieItem item={props.item} onClick={props.onToggle}/>
+            <FontAwesomeIcon className="fa-pull-right" icon={faTrash} onClick={props.onRemove}/>
+        </>
+    )
+};
