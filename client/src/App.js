@@ -11,7 +11,9 @@ import Navbar from "react-bootstrap/Navbar";
 function Nav() {
     return (
         <Navbar bg="dark" variant="dark" className="mb-3">
-            <Navbar.Brand><FontAwesomeIcon icon={faFilm}/> CineTODO</Navbar.Brand>
+            <div className="mx-auto order-0">
+                <Navbar.Brand className="mx-auto"><FontAwesomeIcon icon={faFilm}/> CineTODO</Navbar.Brand>
+            </div>
         </Navbar>
     )
 }
