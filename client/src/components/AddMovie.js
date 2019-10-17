@@ -6,7 +6,9 @@ import {MovieSearchItem} from "./MovieItem";
 
 
 const AddMovie = props => {
+    let ref;
     return <AsyncTypeahead
+        ref={r => ref = r}
         autofocus
         options={props.searchResult.results}
         isLoading={props.isLoading}
@@ -15,11 +17,12 @@ const AddMovie = props => {
         id="search"
         minLength={2}
         onSearch={props.requestMovies}
-        placeholder="Keresés..."
-        renderMenuItemChildren={item => (<MovieSearchItem  item={item}/>)}
+        placeholder="Hozzáadás..."
+        renderMenuItemChildren={item => (<MovieSearchItem item={item}/>)}
         onChange={items => {
             if (items.length) {
                 props.addMovieWithDetails(items[0]);
+                ref.getInstance().clear()
             }
         }}
     />
