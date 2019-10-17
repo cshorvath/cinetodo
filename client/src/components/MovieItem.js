@@ -31,8 +31,8 @@ export const MovieSearchItem = props => {
 export const MovieItem = ({item, onRemove, onToggle}) => {
     const clsName = item.seen ? "seen" : null;
     return <tr>
-        <td className={clsName}>{item.title}</td>
-        <td className={clsName}>{getOriginalTitle(item)} <span className="text-secondary">{getYear(item)}</span></td>
+        <td className={clsName}>{item.title} <span className="text-secondary">{getYear(item)}</span></td>
+        <td className={clsName}>{getOriginalTitle(item)}</td>
         <td className={clsName}><span className="text-secondary">{item.director}</span></td>
         <td className="text-right">
             <ButtonGroup>
