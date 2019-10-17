@@ -18,7 +18,6 @@ const MovieTable = ({title, icon, items, removeMovie, toggleMovie}) => {
                     <col className="col-md-auto"/>
                     <col className="col-md-auto"/>
                     <col className="col-md-1"/>
-                    <col className="col-md-1"/>
                 </colgroup>
                 <tbody>
                 {items.sort(compareItem).map(item =>
