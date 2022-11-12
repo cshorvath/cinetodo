@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"cinetodoapi/auth"
 	"cinetodoapi/database"
 	"cinetodoapi/model"
 	"errors"
@@ -31,6 +32,6 @@ func NewUser(c *gin.Context) {
 }
 
 func GetCurrentUser(c *gin.Context) {
-	user, _ := c.Get("ID")
+	user, _ := c.Get(auth.IdentityKey)
 	c.JSON(200, &user)
 }
