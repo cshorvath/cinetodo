@@ -11,9 +11,9 @@ type UserTokenPayload struct {
 
 type User struct {
 	gorm.Model
-	Username     string
+	Username     string `gorm:"unique;"`
 	PasswordHash string
-	Movies       []Movie `gorm:"many2many:user_movies;"`
+	UserMovies   []UserMovie
 }
 
 type Login struct {

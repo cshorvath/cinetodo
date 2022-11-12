@@ -31,7 +31,7 @@ func (t *TmdbClient) SearchMovies(query string) ([]model.Movie, error) {
 	if err != nil {
 		return nil, err
 	}
-	ret := make([]model.Movie, len(res.Results))
+	ret := make([]model.Movie, 0, len(res.Results))
 	for _, elem := range res.Results {
 		ret = append(ret, model.Movie{
 			ID:            elem.ID,
@@ -76,14 +76,14 @@ func (t *TmdbClient) getDirector(id int) (name string, err error) {
 	return
 }
 
-func parseYear(releaseYear string) uint8 {
-	parts := strings.Split(releaseYear, "-")
+func parseYear(releaseDate string) uint16 {
+	parts := strings.Split(releaseDate, "-")
 	if len(parts) > 0 {
 		ret, err := strconv.Atoi(parts[0])
 		if err != nil {
 			return 0
 		}
-		return uint8(ret)
+		return uint16(ret)
 	}
 	return 0
 }

@@ -17,13 +17,11 @@ func Connect(connectionString string) {
 		log.Fatal(dbError)
 		panic("Cannot connect to DB")
 	}
+	Migrate()
 	log.Println("Connected to Database!")
 }
 
 func Migrate() {
-	Instance.AutoMigrate(&model.User{})
-	Instance.AutoMigrate(&model.Movie{})
-	Instance.AutoMigrate(&model.UserMovie{})
-	Instance.SetupJoinTable(&model.User{}, "Movies", &model.UserMovie{})
+	Instance.AutoMigrate(&model.User{}, &model.Movie{}, &model.UserMovie{})
 	log.Println("Database Migration Completed!")
 }
