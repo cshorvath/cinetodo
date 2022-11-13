@@ -4,14 +4,17 @@ import (
 	"cinetodoapi/auth"
 	"cinetodoapi/controller"
 	"cinetodoapi/database"
+	"cinetodoapi/tmdb"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	_ = godotenv.Load()
 	port := os.Getenv("PORT")
 	r := gin.Default()
 
@@ -20,6 +23,7 @@ func main() {
 	}
 
 	database.Connect(os.Getenv("DB_CONNECTION_STRING"))
+	tmdb.InitFromEnv()
 
 	authMiddleware := auth.InitAuthMiddleware()
 	errInit := authMiddleware.MiddlewareInit()

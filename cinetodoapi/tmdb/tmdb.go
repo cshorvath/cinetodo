@@ -15,16 +15,20 @@ type TmdbClient struct {
 	language string
 }
 
-func NewClient(apiKey string, language string) *TmdbClient {
+var Instance *TmdbClient
+
+func Init(apiKey string, language string) {
 	client, err := tmdb.Init(apiKey)
 	if err != nil {
 		log.Fatal(err)
 		panic("Cannot initialize TMDB client")
 	}
-	return &TmdbClient{client, language}
+	Instance = &TmdbClient{client, language}
 }
 
-var Instance *TmdbClient = NewClient(os.Getenv("TMDB_API_KEY"), os.Getenv("TMDB_LANGUAGE"))
+func InitFromEnv() {
+	Init(os.Getenv("TMDB_API_KEY"), os.Getenv("TMDB_LANGUAGE"))
+}
 
 func (t *TmdbClient) SearchMovies(query string) ([]model.Movie, error) {
 	res, err := t.client.GetSearchMovies(query, map[string]string{"language": t.language})

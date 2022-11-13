@@ -42,8 +42,25 @@ func handleUpdateResult(c *gin.Context, db *gorm.DB) {
 	c.JSON(204, nil)
 }
 
-func listUserMovies(c *gin.Context, userID uint) {
+func getUser(c *gin.Context) *auth.UserResponse {
+	user, ok := c.Get(auth.IdentityKey)
+	if !ok {
+		return nil
+	}
+	return user.(*auth.UserResponse)
+}
 
+func matchUser(c *gin.Context) bool {
+	user := getUser(c)
+	pathUserID, err := parseIdParam(c, "userID")
+	if err == nil && user != nil && user.ID == uint(pathUserID) {
+		return true
+	}
+	c.JSON(403, gin.H{"error": "Unauthorized."})
+	return false
+}
+
+func listUserMovies(c *gin.Context, userID uint) {
 	var user model.User
 	dbErr := database.Instance.Preload("UserMovies.Movie").First(&user, userID).Error
 	if errors.Is(dbErr, gorm.ErrRecordNotFound) {
@@ -55,14 +72,6 @@ func listUserMovies(c *gin.Context, userID uint) {
 		ret = append(ret, UserMovieResponse{Movie: um.Movie, Seen: um.Seen})
 	}
 	c.JSON(200, ret)
-}
-
-func getUser(c *gin.Context) *auth.UserResponse {
-	user, ok := c.Get(auth.IdentityKey)
-	if !ok {
-		return nil
-	}
-	return user.(*auth.UserResponse)
 }
 
 func ListUserMovies(c *gin.Context) {
@@ -89,6 +98,9 @@ func SearchMovies(c *gin.Context) {
 }
 
 func DeleteMovieFromUser(c *gin.Context) {
+	if !matchUser(c) {
+		return
+	}
 	movieID, err := parseIdParam(c, "movieID")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad request"})
@@ -100,6 +112,9 @@ func DeleteMovieFromUser(c *gin.Context) {
 }
 
 func UpdateUserMovie(c *gin.Context) {
+	if !matchUser(c) {
+		return
+	}
 	movieID, err := parseIdParam(c, "movieID")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad request"})
@@ -119,6 +134,9 @@ func UpdateUserMovie(c *gin.Context) {
 }
 
 func AddMovieToUser(c *gin.Context) {
+	if !matchUser(c) {
+		return
+	}
 	movieID, err := parseIdParam(c, "movieID")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad request"})

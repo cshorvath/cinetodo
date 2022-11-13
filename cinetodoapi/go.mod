@@ -7,7 +7,10 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 )
 
-require github.com/golang-jwt/jwt/v4 v4.4.2 // indirect
+require (
+	github.com/golang-jwt/jwt/v4 v4.4.2 // indirect
+	github.com/joho/godotenv v1.4.0 // indirect
+)
 
 require (
 	github.com/appleboy/gin-jwt v2.5.0+incompatible // indirect
