@@ -22,6 +22,8 @@ func main() {
 		port = "8000"
 	}
 
+	log.Println("Running on port " + port)
+
 	database.Connect(os.Getenv("DB_CONNECTION_STRING"))
 	tmdb.InitFromEnv()
 

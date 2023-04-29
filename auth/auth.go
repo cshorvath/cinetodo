@@ -41,7 +41,7 @@ func InitAuthMiddleware() *jwt.GinJWTMiddleware {
 		},
 		Authenticator: func(c *gin.Context) (interface{}, error) {
 			var loginVals model.Login
-			if err := c.ShouldBind(&loginVals); err != nil {
+			if err := c.ShouldBindJSON(&loginVals); err != nil {
 				return "", jwt.ErrMissingLoginValues
 			}
 			var user model.User
@@ -58,7 +58,7 @@ func InitAuthMiddleware() *jwt.GinJWTMiddleware {
 			})
 		},
 
-		TokenLookup:   "header: Authorization, query: token, cookie: jwt",
+		TokenLookup:   "header: Authorization",
 		TokenHeadName: "Bearer",
 		TimeFunc:      time.Now,
 	})

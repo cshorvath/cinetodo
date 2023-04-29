@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 
 	tmdb "github.com/cyruzin/golang-tmdb"
 )
@@ -30,21 +31,29 @@ func InitFromEnv() {
 	Init(os.Getenv("TMDB_API_KEY"), os.Getenv("TMDB_LANGUAGE"))
 }
 
-func (t *TmdbClient) SearchMovies(query string) ([]model.Movie, error) {
+func (t *TmdbClient) SearchMovies(query string) ([]*model.Movie, error) {
 	res, err := t.client.GetSearchMovies(query, map[string]string{"language": t.language})
 	if err != nil {
 		return nil, err
 	}
-	ret := make([]model.Movie, 0, len(res.Results))
-	for _, elem := range res.Results {
-		ret = append(ret, model.Movie{
+	var wg sync.WaitGroup
+	ret := make([]*model.Movie, len(res.Results))
+	for i, elem := range res.Results {
+		wg.Add(1)
+		ret[i] = &model.Movie{
 			ID:            elem.ID,
 			Title:         elem.Title,
 			OriginalTitle: elem.OriginalTitle,
 			Year:          parseYear(elem.ReleaseDate),
 			Director:      "",
-		})
+		}
+		go func(i int, ID int64) {
+			defer wg.Done()
+			director, _ := t.getDirector(int(ID))
+			ret[i].Director = director
+		}(i, elem.ID)
 	}
+	wg.Wait()
 	return ret, nil
 }
 
