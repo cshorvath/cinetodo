@@ -27,9 +27,10 @@ services:
       PORT: ${PORT:-8000}
       # Compose the DSN for GORM MySQL driver
       DB_CONNECTION_STRING: ${DB_USER:-cinetodo}:${DB_PASSWORD:-cinetodo}@tcp(db:3306)/${DB_NAME:-cinetodo}?parseTime=true&charset=utf8mb4&collation=utf8mb4_unicode_ci
-      TMDB_API_KEY: ${TMDB_API_KEY}
+      TMDB_API_KEY: ${TMDB_API_KEY:-REPLACE_ME}
       TMDB_LANGUAGE: ${TMDB_LANGUAGE:-en-US}
       JWT_SECRET: ${JWT_SECRET:-change_me}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:5173}
     ports:
       - "${PORT:-8000}:8000"
     depends_on:
@@ -39,4 +40,3 @@ services:
 
 volumes:
   db-data:
-

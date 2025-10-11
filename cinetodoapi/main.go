@@ -6,7 +6,9 @@ import (
     "cinetodoapi/database"
     "cinetodoapi/tmdb"
     "log"
+    "net/http"
     "os"
+    "strings"
 
     "github.com/joho/godotenv"
     "github.com/labstack/echo/v4"
@@ -39,6 +41,30 @@ func main() {
     e.HideBanner = true
     e.Use(echoMiddleware.Recover())
     e.Use(echoMiddleware.Logger())
+
+    // CORS configuration from env with credentials required; explicit origins only
+    corsEnv := os.Getenv("CORS_ALLOWED_ORIGINS")
+    var allowOrigins []string
+    for _, o := range strings.Split(corsEnv, ",") {
+        if s := strings.TrimSpace(o); s != "" {
+            allowOrigins = append(allowOrigins, s)
+        }
+    }
+    // Enforce explicit origins when credentials are enabled
+    if len(allowOrigins) == 0 || (len(allowOrigins) == 1 && allowOrigins[0] == "*") {
+        log.Fatal("CORS_ALLOWED_ORIGINS must be a comma-separated list of explicit origins when credentials are enabled; '*' is not allowed")
+    }
+    e.Use(echoMiddleware.CORSWithConfig(echoMiddleware.CORSConfig{
+        AllowOrigins: allowOrigins,
+        AllowMethods: []string{
+            http.MethodGet, http.MethodPost, http.MethodPatch,
+            http.MethodPut, http.MethodDelete, http.MethodOptions,
+        },
+        AllowHeaders: []string{
+            echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization,
+        },
+        AllowCredentials: true,
+    }))
 
     // Public routes
     e.POST("/login", auth.Login)
