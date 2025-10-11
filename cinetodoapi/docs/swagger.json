@@ -381,6 +381,9 @@
                 "originalTitle": {
                     "type": "string"
                 },
+                "posterPath": {
+                    "type": "string"
+                },
                 "seen": {
                     "type": "boolean"
                 },
@@ -417,6 +420,9 @@
                     "type": "integer"
                 },
                 "originalTitle": {
+                    "type": "string"
+                },
+                "posterPath": {
                     "type": "string"
                 },
                 "title": {

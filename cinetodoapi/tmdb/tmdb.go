@@ -32,47 +32,49 @@ func InitFromEnv() {
 }
 
 func (t *TmdbClient) SearchMovies(query string) ([]*model.Movie, error) {
-	res, err := t.client.GetSearchMovies(query, map[string]string{"language": t.language})
-	if err != nil {
-		return nil, err
-	}
-	var wg sync.WaitGroup
-	ret := make([]*model.Movie, len(res.Results))
-	for i, elem := range res.Results {
-		wg.Add(1)
-		ret[i] = &model.Movie{
-			ID:            elem.ID,
-			Title:         elem.Title,
-			OriginalTitle: elem.OriginalTitle,
-			Year:          parseYear(elem.ReleaseDate),
-			Director:      "",
-		}
-		go func(i int, ID int64) {
-			defer wg.Done()
-			director, _ := t.getDirector(int(ID))
-			ret[i].Director = director
-		}(i, elem.ID)
-	}
-	wg.Wait()
-	return ret, nil
+    res, err := t.client.GetSearchMovies(query, map[string]string{"language": t.language})
+    if err != nil {
+        return nil, err
+    }
+    var wg sync.WaitGroup
+    ret := make([]*model.Movie, len(res.Results))
+    for i, elem := range res.Results {
+        wg.Add(1)
+        ret[i] = &model.Movie{
+            ID:            elem.ID,
+            Title:         elem.Title,
+            OriginalTitle: elem.OriginalTitle,
+            Year:          parseYear(elem.ReleaseDate),
+            Director:      "",
+            PosterPath:    elem.PosterPath,
+        }
+        go func(i int, ID int64) {
+            defer wg.Done()
+            director, _ := t.getDirector(int(ID))
+            ret[i].Director = director
+        }(i, elem.ID)
+    }
+    wg.Wait()
+    return ret, nil
 }
 
 func (t *TmdbClient) GetMovie(id int) (*model.Movie, error) {
-	res, err := t.client.GetMovieDetails(id, map[string]string{})
-	if err != nil {
-		return nil, err
-	}
-	director, err := t.getDirector(id)
-	if err != nil {
-		return nil, err
-	}
-	return &model.Movie{
-		ID:            res.ID,
-		Title:         res.Title,
-		OriginalTitle: res.OriginalTitle,
-		Year:          parseYear(res.ReleaseDate),
-		Director:      director,
-	}, nil
+    res, err := t.client.GetMovieDetails(id, map[string]string{})
+    if err != nil {
+        return nil, err
+    }
+    director, err := t.getDirector(id)
+    if err != nil {
+        return nil, err
+    }
+    return &model.Movie{
+        ID:            res.ID,
+        Title:         res.Title,
+        OriginalTitle: res.OriginalTitle,
+        Year:          parseYear(res.ReleaseDate),
+        Director:      director,
+        PosterPath:    res.PosterPath,
+    }, nil
 }
 
 func (t *TmdbClient) getDirector(id int) (name string, err error) {

@@ -388,6 +388,9 @@ const docTemplate = `{
                 "originalTitle": {
                     "type": "string"
                 },
+                "posterPath": {
+                    "type": "string"
+                },
                 "seen": {
                     "type": "boolean"
                 },
@@ -424,6 +427,9 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "originalTitle": {
+                    "type": "string"
+                },
+                "posterPath": {
                     "type": "string"
                 },
                 "title": {

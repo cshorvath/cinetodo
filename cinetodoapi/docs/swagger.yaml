@@ -20,6 +20,8 @@ definitions:
         type: integer
       originalTitle:
         type: string
+      posterPath:
+        type: string
       seen:
         type: boolean
       title:
@@ -44,6 +46,8 @@ definitions:
       id:
         type: integer
       originalTitle:
+        type: string
+      posterPath:
         type: string
       title:
         type: string

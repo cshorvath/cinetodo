@@ -179,6 +179,7 @@ func AddMovieToUser(c echo.Context) error {
 		movie.OriginalTitle = tmdbMovie.OriginalTitle
 		movie.Director = tmdbMovie.Director
 		movie.Year = tmdbMovie.Year
+		movie.PosterPath = tmdbMovie.PosterPath
 		database.Instance.Create(&movie)
 	}
 	database.Instance.Create(model.UserMovie{MovieID: movie.ID, UserID: getUser(c).ID, Seen: false})
