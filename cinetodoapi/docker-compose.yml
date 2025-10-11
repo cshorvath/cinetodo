@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.0
+    command: ["--default-authentication-plugin=mysql_native_password"]
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-cinetodo}
+      MYSQL_USER: ${DB_USER:-cinetodo}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-cinetodo}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${DB_ROOT_PASSWORD:-root}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  api:
+    build:
+      dockerfile: Dockerfile
+    environment:
+      PORT: ${PORT:-8000}
+      # Compose the DSN for GORM MySQL driver
+      DB_CONNECTION_STRING: ${DB_USER:-cinetodo}:${DB_PASSWORD:-cinetodo}@tcp(db:3306)/${DB_NAME:-cinetodo}?parseTime=true&charset=utf8mb4&collation=utf8mb4_unicode_ci
+      TMDB_API_KEY: ${TMDB_API_KEY}
+      TMDB_LANGUAGE: ${TMDB_LANGUAGE:-en-US}
+      JWT_SECRET: ${JWT_SECRET:-change_me}
+    ports:
+      - "${PORT:-8000}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  db-data:
+
