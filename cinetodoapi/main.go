@@ -36,7 +36,6 @@ func main() {
 
     database.Connect(os.Getenv("DB_CONNECTION_STRING"))
     tmdb.InitFromEnv()
-
     e := echo.New()
     e.HideBanner = true
     e.Use(echoMiddleware.Recover())
