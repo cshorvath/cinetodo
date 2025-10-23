@@ -30,7 +30,7 @@ services:
       TMDB_API_KEY: ${TMDB_API_KEY:-REPLACE_ME}
       TMDB_LANGUAGE: ${TMDB_LANGUAGE:-en-US}
       JWT_SECRET: ${JWT_SECRET:-change_me}
-      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:5173}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:8080}
     ports:
       - "${PORT:-8000}:8000"
     depends_on:

@@ -61,7 +61,7 @@ func Login(c echo.Context) error {
     if err != nil {
         return c.JSON(http.StatusInternalServerError, map[string]string{"error": "token error"})
     }
-    return c.JSON(http.StatusOK, map[string]string{"token": signed})
+    return c.JSON(http.StatusOK, map[string]string{"token": signed, "user": user.Username})
 }
 
 // JWTMiddleware validates JWT and loads user into context
