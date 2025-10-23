@@ -1,0 +1,11 @@
+.results {
+display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%/3, max(64px, 100%/5)), 1fr));
+  grid-auto-flow: dense;
+    grid-template-rows: auto;
+
+}
+
+.results::after {
+    padding-bottom: Z;
+}

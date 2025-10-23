@@ -7,6 +7,7 @@ import (
 	"cinetodoapi/tmdb"
 	"cinetodoapi/view"
 	"cinetodoapi/views"
+	"embed"
 	"log"
 	"os"
 
@@ -14,6 +15,9 @@ import (
 	"github.com/labstack/echo/v4"
 	echoMiddleware "github.com/labstack/echo/v4/middleware"
 )
+
+//go:embed assets/*
+var Assets embed.FS
 
 func main() {
 	_ = godotenv.Load()
@@ -42,6 +46,7 @@ func main() {
 	e.POST("/login", auth.Login)
 	e.POST("/logout", auth.Logout)
 	e.POST("/user", controller.NewUser)
+	e.StaticFS("/assets", echo.MustSubFS(Assets, "assets"))
 
 	// Protected routes
 	g := e.Group("")

@@ -42,12 +42,12 @@ func NewRenderer(fsys fs.FS, funcs template.FuncMap) (*Renderer, error) {
 }
 
 // Render executes the named template with the provided data.
-func (r *Renderer) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
-	var ctxData map[string]interface{}
+func (r *Renderer) Render(w io.Writer, name string, data any, c echo.Context) error {
+	var ctxData map[string]any
 	switch v := data.(type) {
 	case nil:
-		ctxData = map[string]interface{}{}
-	case map[string]interface{}:
+		ctxData = map[string]any{}
+	case map[string]any:
 		ctxData = v
 	default:
 		// Allow structs/slices to be passed directly without wrapping.

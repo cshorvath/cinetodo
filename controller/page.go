@@ -31,7 +31,6 @@ func Dashboard(c echo.Context) error {
 		"User":    user,
 		"Movies":  movies,
 		"IsOwner": true,
-		"Title":   "My Watchlist",
 	}
 	if loadFailure {
 		data["InitialFlash"] = map[string]string{

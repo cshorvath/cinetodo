@@ -296,5 +296,6 @@ func AddMovieToUser(c echo.Context) error {
 		Kind:    "success",
 		Message: fmt.Sprintf("Added \"%s\" to your watchlist.", movie.Title),
 	}
+	c.Response().Header().Set("HX-Trigger", `{"search-reset": ""}`)
 	return renderWatchlistForUser(c, user.ID, true, success)
 }

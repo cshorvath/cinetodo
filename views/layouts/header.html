@@ -5,206 +5,31 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{if .Title}}{{.Title}} · {{end}}CineTodo</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1.5.10/css/pico.min.css">
-  <style>
-    :root {
-      --accent: #ff6b6b;
-      --accent-dark: #d94f4f;
-      --success: #2d8a5f;
-      --warning: #e1a800;
-    }
-    body {
-      background-color: #0f172a;
-      color: #e2e8f0;
-    }
-    header nav ul:first-child strong {
-      font-size: 1.1rem;
-      letter-spacing: 0.05em;
-    }
-    main.container {
-      padding-bottom: 4rem;
-    }
-    .dashboard-grid {
-      display: grid;
-      gap: 2rem;
-    }
-    @media (min-width: 992px) {
-      .dashboard-grid {
-        grid-template-columns: 1fr 1.2fr;
-      }
-    }
-    .search-panel,
-    .watchlist-panel,
-    .auth-card {
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      border-radius: 1rem;
-      padding: 2rem;
-      box-shadow: 0 1.5rem 3rem rgba(15, 23, 42, 0.45);
-    }
-    .search-panel h2,
-    .watchlist-panel h2 {
-      margin-bottom: 1.5rem;
-    }
-    .search-results {
-      display: grid;
-      gap: 1rem;
-    }
-    .result-card {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 1rem 1.5rem;
-      border-radius: 0.75rem;
-      background: rgba(30, 41, 59, 0.65);
-      border: 1px solid rgba(148, 163, 184, 0.15);
-    }
-    .result-card strong {
-      font-size: 1.05rem;
-    }
-    .result-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-    .result-meta small {
-      color: #94a3b8;
-    }
-    .watchlist-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .watchlist-table thead {
-      color: #94a3b8;
-      font-size: 0.9rem;
-    }
-    .watchlist-table tbody tr {
-      border-bottom: 1px solid rgba(148, 163, 184, 0.12);
-    }
-    .watchlist-table td {
-      padding: 1rem 0.5rem;
-      vertical-align: top;
-    }
-    .movie-meta {
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
-    }
-    .movie-meta img {
-      width: 70px;
-      border-radius: 0.75rem;
-      box-shadow: 0 0.75rem 1.5rem rgba(15, 23, 42, 0.4);
-    }
-    .movie-meta strong {
-      font-size: 1.05rem;
-      color: #f8fafc;
-    }
-    .movie-meta small {
-      display: block;
-      color: #94a3b8;
-      margin-top: 0.2rem;
-    }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.25rem 0.6rem;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .badge.success {
-      background: rgba(45, 138, 95, 0.2);
-      color: #34d399;
-    }
-    .badge.pending {
-      background: rgba(225, 168, 0, 0.2);
-      color: #fbbf24;
-    }
-    .actions {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-    .flash {
-      border-radius: 0.75rem;
-      padding: 0.9rem 1.1rem;
-      margin-bottom: 1rem;
-      font-size: 0.95rem;
-    }
-    .flash-success {
-      background: rgba(45, 138, 95, 0.18);
-      border: 1px solid rgba(45, 138, 95, 0.5);
-      color: #bbf7d0;
-    }
-    .flash-warning {
-      background: rgba(225, 168, 0, 0.18);
-      border: 1px solid rgba(225, 168, 0, 0.5);
-      color: #fef3c7;
-    }
-    .flash-error {
-      background: rgba(217, 79, 79, 0.2);
-      border: 1px solid rgba(217, 79, 79, 0.55);
-      color: #fecaca;
-    }
-    .flash.flash-hide {
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    form[role="logout"] {
-      display: inline;
-    }
-    form[role="logout"] button {
-      margin: 0;
-    }
-    .auth-grid {
-      display: grid;
-      gap: 2rem;
-    }
-    @media (min-width: 768px) {
-      .auth-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-    .muted {
-      color: #94a3b8;
-    }
-    .loading-indicator {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: #94a3b8;
-      font-size: 0.9rem;
-    }
-    .htmx-indicator {
-      display: none;
-    }
-    .htmx-indicator.htmx-request {
-      display: inline-flex;
-    }
-  </style>
-</head>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+>
+<link rel="stylesheet" href="/assets/main.css">
 <body>
   <header class="container">
     <nav>
       <ul>
-        <li><strong>CineTodo</strong></li>
+        <li><strong>🎬 CineTODO</strong></li>
       </ul>
       <ul>
         {{if .User}}
           <li class="muted">Signed in as <span class="username">{{.User.Username}}</span></li>
           <li>
-            <form action="/logout" method="post" role="logout">
-              <button type="submit" class="secondary outline">Sign out</button>
-            </form>
+            <button 
+              class="secondary outline"
+              hx-post="/logout"
+              hx-target="#main">Sign out</button>
           </li>
         {{else}}
-          <li></li>
+        <li></li>
         {{end}}
       </ul>
     </nav>
   </header>
-  <main class="container">
+  <main class="container" id="main">
 {{end}}

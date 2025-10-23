@@ -37,9 +37,9 @@ func GetUserFromContext(c echo.Context) *UserResponse {
 }
 
 // RenderLogin renders the login page with optional data.
-func RenderLogin(c echo.Context, status int, data map[string]interface{}) error {
+func RenderLogin(c echo.Context, status int, data map[string]any) error {
 	if data == nil {
-		data = map[string]interface{}{}
+		data = map[string]any{}
 	}
 	if _, ok := data["Title"]; !ok {
 		data["Title"] = "Sign in"
