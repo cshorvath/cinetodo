@@ -1,0 +1,11 @@
+{{define "pages/public_watchlist.html"}}
+{{template "layouts/header" .}}
+<section class="watchlist-panel">
+  <h2>{{if .Owner}}{{.Owner}}'s watchlist{{else}}Watchlist{{end}}</h2>
+  {{if .Flash}}
+    {{template "partials/flash.html" .Flash}}
+  {{end}}
+  {{template "partials/watchlist.html" .}}
+</section>
+{{template "layouts/footer" .}}
+{{end}}

@@ -1,0 +1,27 @@
+{{define "partials/search_results.html"}}
+<div class="search-results" aria-live="polite">
+  {{if .Error}}
+    {{template "partials/flash.html" (dict "Kind" "error" "Message" .Error)}}
+  {{else if gt (len .Results) 0}}
+    {{range .Results}}
+      <div class="result-card">
+        <div class="result-meta">
+          <strong>{{.Title}}</strong>
+          <small>{{if gt .Year 0}}{{.Year}}{{else}}Year unknown{{end}}</small>
+          {{if .Director}}<small>Director: {{.Director}}</small>{{end}}
+        </div>
+        <button type="button"
+                hx-post="/user/movie/{{.ID}}"
+                hx-target="#watchlist-section"
+                hx-swap="outerHTML">
+          Add
+        </button>
+      </div>
+    {{end}}
+  {{else if .Query}}
+    <p class="muted">No movies found for “{{.Query}}”.</p>
+  {{else}}
+    <p class="muted">Start typing above to search the movie database.</p>
+  {{end}}
+</div>
+{{end}}

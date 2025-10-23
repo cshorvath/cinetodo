@@ -1,0 +1,7 @@
+{{define "partials/flash.html"}}
+{{with .}}
+  <div class="flash flash-{{.Kind}}" {{if eq .Kind "success"}}data-autoclear="true"{{end}}>
+    {{.Message}}
+  </div>
+{{end}}
+{{end}}

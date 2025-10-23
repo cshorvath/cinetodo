@@ -1,0 +1,87 @@
+{{define "partials/watchlist.html"}}
+<section id="watchlist-section" aria-live="polite">
+  {{if .Flash}}
+    {{template "partials/flash.html" .Flash}}
+  {{end}}
+  {{if gt (len .Movies) 0}}
+    <table class="watchlist-table">
+      <thead>
+        <tr>
+          <th scope="col">Movie</th>
+          <th scope="col">Year</th>
+          <th scope="col">Status</th>
+          {{if .IsOwner}}<th scope="col" class="actions">Actions</th>{{end}}
+        </tr>
+      </thead>
+      <tbody>
+        {{range .Movies}}
+          <tr>
+            <td>
+              <div class="movie-meta">
+                {{if .PosterPath}}
+                  <img src="https://image.tmdb.org/t/p/w185{{.PosterPath}}" alt="Poster for {{.Title}}">
+                {{end}}
+                <div>
+                  <strong>{{.Title}}</strong>
+                  {{if and .OriginalTitle (ne .OriginalTitle .Title)}}
+                    <small>Original title: {{.OriginalTitle}}</small>
+                  {{end}}
+                  {{if .Director}}
+                    <small>Directed by {{.Director}}</small>
+                  {{end}}
+                </div>
+              </div>
+            </td>
+            <td>{{if gt .Year 0}}{{.Year}}{{else}}—{{end}}</td>
+            <td>
+              {{if .Seen}}
+                <span class="badge success">Seen</span>
+              {{else}}
+                <span class="badge pending">Pending</span>
+              {{end}}
+            </td>
+            {{if $.IsOwner}}
+              <td class="actions">
+                {{if .Seen}}
+                  <button type="button"
+                          class="secondary outline"
+                          hx-patch="/user/movie/{{.ID}}"
+                          hx-vals='{"seen": false}'
+                          hx-target="#watchlist-section"
+                          hx-swap="outerHTML">
+                    Mark as unseen
+                  </button>
+                {{else}}
+                  <button type="button"
+                          class="contrast"
+                          hx-patch="/user/movie/{{.ID}}"
+                          hx-vals='{"seen": true}'
+                          hx-target="#watchlist-section"
+                          hx-swap="outerHTML">
+                    Mark as seen
+                  </button>
+                {{end}}
+                <button type="button"
+                        class="secondary"
+                        hx-delete="/user/movie/{{.ID}}"
+                        hx-target="#watchlist-section"
+                        hx-swap="outerHTML">
+                  Remove
+                </button>
+              </td>
+            {{end}}
+          </tr>
+        {{end}}
+      </tbody>
+    </table>
+  {{else}}
+    <p class="muted">
+      {{if .IsOwner}}
+        Your watchlist is empty. Use the search on the left to add films you want to see.
+      {{else}}
+        This watchlist does not have any movies yet.
+      {{end}}
+    </p>
+  {{end}}
+</section>
+{{end}}

@@ -1,0 +1,35 @@
+{{define "pages/dashboard.html"}}
+{{template "layouts/header" .}}
+<section class="dashboard-grid">
+  <article class="search-panel">
+    <h2>Discover movies</h2>
+    <form id="search-form">
+      <label for="search-query">Search the movie database</label>
+      <input id="search-query"
+             name="query"
+             type="search"
+             placeholder="Search for a movie..."
+             autocomplete="off"
+             hx-get="/movie"
+             hx-trigger="keyup changed delay:500ms"
+             hx-target="#search-results"
+             hx-indicator="#search-indicator">
+    </form>
+    <div class="loading-indicator htmx-indicator" id="search-indicator">
+      <span aria-hidden="true">⏳</span>
+      <span>Searching…</span>
+    </div>
+    <div id="search-results">
+      <p class="muted">Start typing above to search the movie database.</p>
+    </div>
+  </article>
+  <article class="watchlist-panel">
+    <h2>My watchlist</h2>
+    {{if .InitialFlash}}
+      {{template "partials/flash.html" .InitialFlash}}
+    {{end}}
+    {{template "partials/watchlist.html" .}}
+  </article>
+</section>
+{{template "layouts/footer" .}}
+{{end}}

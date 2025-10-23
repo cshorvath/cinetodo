@@ -1,0 +1,40 @@
+{{define "auth/login.html"}}
+{{template "layouts/header" .}}
+<section class="auth-grid">
+  <article class="auth-card">
+    <h2>Welcome back</h2>
+    <p class="muted">Sign in to manage your watchlist.</p>
+    {{if .Error}}
+      {{template "partials/flash.html" (dict "Kind" "error" "Message" .Error)}}
+    {{end}}
+    {{if .Success}}
+      {{template "partials/flash.html" (dict "Kind" "success" "Message" .Success)}}
+    {{end}}
+    <form action="/login" method="post">
+      <label for="login-username">Username</label>
+      <input id="login-username" name="username" type="text" required autofocus value="{{with .Username}}{{.}}{{end}}">
+      <label for="login-password">Password</label>
+      <input id="login-password" name="password" type="password" required>
+      <button type="submit" class="primary">Sign in</button>
+    </form>
+  </article>
+  <article class="auth-card">
+    <h2>New here?</h2>
+    <p class="muted">Create an account to start tracking the movies you want to watch.</p>
+    {{if .RegisterError}}
+      {{template "partials/flash.html" (dict "Kind" "error" "Message" .RegisterError)}}
+    {{end}}
+    {{if .RegisterSuccess}}
+      {{template "partials/flash.html" (dict "Kind" "success" "Message" .RegisterSuccess)}}
+    {{end}}
+    <form action="/user" method="post">
+      <label for="register-username">Username</label>
+      <input id="register-username" name="username" type="text" required value="{{with .Username}}{{.}}{{end}}">
+      <label for="register-password">Password</label>
+      <input id="register-password" name="password" type="password" required>
+      <button type="submit">Create account</button>
+    </form>
+  </article>
+</section>
+{{template "layouts/footer" .}}
+{{end}}

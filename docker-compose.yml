@@ -22,6 +22,7 @@ services:
 
   api:
     build:
+      context: .
       dockerfile: Dockerfile
     environment:
       PORT: ${PORT:-8000}

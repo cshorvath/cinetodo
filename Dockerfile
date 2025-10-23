@@ -19,4 +19,3 @@ USER app
 EXPOSE 8000
 ENV PORT=8000
 ENTRYPOINT ["/app/server"]
-
